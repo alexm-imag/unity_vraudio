@@ -16,10 +16,12 @@ public class wordSelectionScript : MonoBehaviour
     [SerializeField] GameObject wordSelectionUI;
     [SerializeField] Image[] btnIcons;
     [SerializeField] Button[] wordBtns;
+    [SerializeField] Button unsureBtn;
     [SerializeField] Button continueBtn;
     [SerializeField] TrainingGameManager masterScript;
 
     [SerializeField] int wordOptions = 4;
+    [SerializeField] int nextDelay = 1;
 
     // words to be written onto UI
     private string[] words;
@@ -30,6 +32,11 @@ public class wordSelectionScript : MonoBehaviour
     // an option or 'unsure' was selected by the user
     private bool selectionMade;
 
+    private void Start()
+    {
+        wordSelectionUI.SetActive(false);
+    }
+
     public void startWordSelection(string[] randomWords, Sprite[] randomIcons)
     {
         selectionMade = false;
@@ -37,6 +44,7 @@ public class wordSelectionScript : MonoBehaviour
         words = randomWords;
         icons = randomIcons;
         mapWordsToUI();
+        wordBtns[0].Select();
     }
 
     void mapWordsToUI()
@@ -72,16 +80,18 @@ public class wordSelectionScript : MonoBehaviour
         if (correctBtn == btn_ix)
         {
             masterScript.OnHit();
+            wordBtns[btn_ix].GetComponent<Image>().color = Color.green;
         }
         else
         {
             masterScript.OnMiss();
+            wordBtns[btn_ix].GetComponent<Image>().color = Color.red;
         }
 
         selectionMade = true;
-        show_results_on_buttons();
-        continueBtn.gameObject.SetActive(true);
-        continueBtn.Select();
+        StartCoroutine(showNextWait(nextDelay));
+
+
     }
 
     public void UnsureButtonHanlder()
@@ -96,6 +106,7 @@ public class wordSelectionScript : MonoBehaviour
 
     }
 
+    /*
     private void show_results_on_buttons()
     {
         for (int i = 0; i < 4; i++)
@@ -111,8 +122,9 @@ public class wordSelectionScript : MonoBehaviour
 
         }
     }
+    */
 
-
+    /*
     public void reset_buttons_colors()
     {
         for(int i = 0; i < 4; i++)
@@ -120,11 +132,38 @@ public class wordSelectionScript : MonoBehaviour
             wordBtns[i].GetComponent<Image>().color = Color.white;
         }
     }
+    */
+
+    private IEnumerator showNextWait(int delay)
+    {
+        yield return new WaitForSeconds(delay);
+        showNextButton();
+    }
+
+    private void showNextButton()
+    {
+
+        for (int i = 0; i < wordBtns.Length; i++)
+        {
+            wordBtns[i].GetComponent<Image>().color = Color.white;
+            wordBtns[i].gameObject.SetActive(false);
+        }
+        unsureBtn.gameObject.SetActive(false);
+        continueBtn.gameObject.SetActive(true);
+        continueBtn.Select();
+    }
 
     public void showWordSelectionUI(bool show)
     {
         continueBtn.gameObject.SetActive(false);
         wordSelectionUI.SetActive(show);
+        for (int i = 0; i < wordBtns.Length; i++)
+        {
+            wordBtns[i].gameObject.SetActive(true);
+        }
+        unsureBtn.gameObject.SetActive(true);
+
+        wordBtns[0].Select();
     }
 
 }
