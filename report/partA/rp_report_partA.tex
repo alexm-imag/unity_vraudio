@@ -251,21 +251,16 @@ In the context of \ac{VR} environments this is particularly important, because t
 
 
 
-\subsection{Training results}
-Before re-working the \ac{LiSN}  project, it is sensible to take a look on the results that could be achieved with the original application. Within \textit{Efficacy of the LiSN \& Learn auditory training software: randomized
-blinded controlled study} \cite{LiSN-B} Cameron and Dillon give an insight on the efficacy of the \ac{LiSN-S} training program.
+\subsection{Training capabilities}
+Before re-working the \ac{LiSN} \& Learn software, it is sensible to take a look on the results that could be achieved with the original application. Within the initial publication Cameron and Dillon already presented some data on \ac{SRT} improvements that could be achieved over the course of a 3 month long training period \cite{LiSN-A}. In this study children between the age of 6 to 11 years, who have shown \dq abnormal auditory behavior relative to their peers\dq{} and could be diagnosed with \ac{SPD} through \ac{LiSN-S} were selected as participants. With a sample group of 9 participants an average gain of 9.7 dB in \ac{SRT} levels was reached inside the \ac{LiSN} \& Learn software. Furthermore \ac{LiSN-S} performances before and after showed improvements as well, even though not as large as within the training software. 8 out of 9 participants could maintain their results even after a period of 3 months without further training.
 \newline
 \newline
-Over the course of several studies, it has been proven that auditory training can indeed improve the performance of children affected by \ac{SPD} significantly. Referring to the work of Cameron and Dillon the \ac{LiSN-S} training program achieved an average improvement of the participants of 10.9 dB over the course of 12 weeks. This also supports the data from the initial trials during the development of \ac{LiSN-S}, which found an average improvement of nearly 10 dB over the duration of 3 months \cite{LiSN-A}. However, in both cases - as mentioned by the authors - the sample group was relatively small, so a level of uncertainty remains.
-\newline
-\newline
-Apart from simply performing better within the \ac{LiSN-S} participants showed also improved performances in Fisher's Auditory Performance Checklist\footnote{Reference: \url{http://www.auditorycenter.com/wp-content/uploads/2014/09/APC-Fishers-Auditory-Checklist.pdf}} \cite{LiSN-B}.
-\newline
-\newline
+In \textit{Efficacy of the LiSN \& Learn auditory training software: randomized blinded controlled study} \cite{LiSN-B} Cameron and Dillon extend upon the initial study by comparing improvements of participants who trained with \ac{LiSN} \& Learn and a second group which worked with the Earobics software\footnote{Apart from the information given in \cite{LiSN-A} and \cite{LiSB-B} more information about Earobics can be found here: \url{https://www.researchgate.net/publication/254344844_Phonological_Awareness_Intervention_Comparison_of_Fast_ForWord_Earobics_and_LiPS}}. In total 10 suitable participants trained over the course of 12 weeks (with each \ac{LiSN} \& Learn and Earobics). The \ac{LiSN} group showed an average gain of 10.9 dB in \ac{SRT} over the course of training. The comparison between the two groups shows that an emphasis on spatialized sound is more suitable in re-mediating \ac{SPD} than regular auditory training. Children that trained with \ac{LiSN} \& Learn achieved greater improvements in \ac{LiSN-S} and real-world listening performances (according to parents and teachers).
+
 
 \section{Approach}
 \label{sec:approach}
-This section will discuss the basic ideas and prerequisites of this project.
+Before developing a concept for a new training game, this section shall be used to discuss principles, guidelines and requirements that have to be considered.
 
 
 \subsection{Design principles}
@@ -309,53 +304,49 @@ Unity is a development platform, which is mainly used as a engine for video game
 \paragraph{Oculus SDK} The Oculus \acs{SDK} offers a lot of utilities, which make the implementation of  \ac{VR} applications a lot easier. This goes from starting points for special camera rigs, to an adjusted input system over the the Oculus Audio Spatializer\footnote{For more details see: \url{https://developer.oculus.com/documentation/unity/unity-gs-overview/}}.
 
 
-%This goes from prefabs for camera setups, to input management over the a dedicated audio spatializer.
+%\subsection{Orientation on LiSN \& Learn software}
+\subsection{LiSN \& Learn - Training Game}
+As mentioned before, the new application will be orientated strongly on the original \ac{LiSN} \& Learn software. In particular, the design of the \textit{Training Game} should be matched precisely to ensure that the new game will remains comparable to the original. For this purpose all major components of the \textit{Training Game} will be presented in the following.
+
+\paragraph{Setup} The \textit{Training Game} consists of randomly generated \textit{target sentences}, which are played against background noise, consisting of two \textit{distracter stories}. The \textit{target sentences} will be presented at a 0 degree azimuth angle, while the \textit{distracter stories} will be shifted 90 degrees to the left or right respectively (as shown in figure \ref{fig:setup}).
+\vspace{5mm}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{setup2.png}
+\caption{Setup}
+\label{fig:setup}
+\vspace{3mm}
+\end{figure}
 
 
+\paragraph{Task} The player has to identify a randomly selected word of the previously played \textit{target sentence} from a selection of \textbf{4 options}. Alternatively there's also an \textit{unsure} button, which leads to the current sentence being repeated \textbf{once}. 
 
-% describe what parameters will be directly taken from LiSN
-\subsection{Orientation on LiSN \& Learn software}
-Within this section the given parameters for the training game shall be presented, which have to be followed in order to maintain comparability.
 
-%\begin{itemize}
-%\item Word list (List 1)
-%\item Target sentence generation (cutting sentences into words, then randomly assembling them)
-%\end{itemize}
-
-% \subsection{Training Game}
-\paragraph{Game loop} Like in the original project the main game loop will consist of target sentences being playing along with a distracter story. After every round \textbf{4 options} for a word from the target sentence (including the correct one) and an \textit{Unsure} button will be presented to the player. If the player selects the correct answer a 'success sound' (e.g. a bell) has to be played, while after an incorrect selection a 'failure sound' is issued. If \textit{Unsure} was selected the same sentence will be repeated once. When \textit{Unsure} is submitted twice in a row, a new sentence will be created. A training session consists of 40 rounds / sentences.
-
-\paragraph{Scenarios} The training game shall feature \textbf{4 different scenarios}:
-\begin{enumerate}
-\item Same voice with 0 degrees (low cue \ac{SRT})
-\item Same voice with $\pm$ 90 degrees (high cue \ac{SRT})
-\item Different voices with 0 degrees (low cue \ac{SRT})
-\item Different voices with $\pm$ 90 degrees (high cue \ac{SRT})
-\end{enumerate}
-For this purpose both all the target sentences and distracter stories have to be available with two differnt voices (ideally a female and a male one).
-
-\paragraph{Adaptive SNR} Based upon whether the participant guess a word correctly (\textit{hit}), incorrectly (\textit{miss)} or select the \textit{unsure} option the audio levels between target and distracter will be adjusted:
+\paragraph{Adaptive SNR} Based upon whether the participant guesses a word correctly (\textit{hit}), incorrectly (\textit{miss)} or select the \textit{unsure} option the \ac{SNR} between the target and distracter stimuli has to be adjusted:
 \begin{itemize}
 \item Hit: - 1.5 dB SNR
 \item Miss: + 2.5 dB SNR
 \item Unsure: + 1.5 dB SNR
 \end{itemize}
 
-\paragraph{Practice mode} To find the \ac{SRT} of the participant, a \textit{practice mode} will be started at each session, where the given answers are not included in the progress data. A minimum of \textbf{5 practice rounds} have to be done before starting the actual training game. Once this minimum has been reached the first incorrect or \textit{Unsure} selection will end \textit{practice mode}. During \textit{practice mode} the \ac{SNR} decreases by 3 dB.
+
+\paragraph{Practice mode} To find the \ac{SRT} of the participant, a \textit{practice mode} will be started at each the beginning of every session. During this period the \ac{SNR} is be decreased by 3 dB each round. A \textbf{minimum of 5 practice rounds} has to be done before starting the actual training game. Once this minimum has been reached the first incorrect or \textit{unsure} response after a correct answer will end the \textit{practice mode}.
+
 
 \paragraph{Rewards} When \textbf{5 consecutive correct answers} have been given, the participant is granted a reward sticker, which will be shown on the screen for the remaining duration of the session.
 
+
 \paragraph{Attention sound} 500 ms before the start of every target sentence a short attention sound has to be played (1000 Hz tone of 200 ms).
+
 
 \paragraph{Playback delays} The disctracter story shall always start 2 s before the target sentences and end approx. 1s after the target speaker has finished.
 
-\paragraph{Audio parameters} Each target sentence shall be normalized to -22.0 dB \acs{RMS}. Every distracter story has to be normalized to - 25.0 dB \acs{RMS}.
 
-% \subsubsection{Audio assets}
+\paragraph{Audio settings} The \textit{target sentences} have to be normalized to -22.0 dB \acs{RMS}, while the \textit{distracter stories} are normalized to- 25.0 dB \acs{RMS}. At the start of the game, the \textit{target sentences} shall be presented at a \acs{SPL} of 62 dB, while the \textit{distracter stories} are played at 55 dB \acs{SPL}.
 
-% voice options
-% RMS for distractor and target
-% audio editing guidelines
+
+\paragraph{Progress tracking} To retrieve useful data from the training sessions the average \ac{SRT} values of each session (excluding the pracitice rounds) and the gained reward stickers shall be tracked.
+
 
 \subsection{Speech stimuli}
 \label{sec:speech}
@@ -405,23 +396,8 @@ The biggest part will be achieving flexibility in the projects structure, to all
 \label{sec:concept_tg}
 This section will focus on the aspects that are specific to the actual training game. This includes some pre-considerations on how the general setup should look like and what practices can be used to maintain a certain level of adjustability from the start. Of course it is to be expected, that some of the ideas described here won't be implemented exactly.
 
-\subsubsection{Audio Sources}
-Inside the training game there will be two possible setup option for the audio sources. In \textbf{Setup A} the \textit{target} audio source will be placed directly in front of the \textit{main camera}, while the \textit{distracter} will be moved 90 degrees to the right side \footnote{The selection between right and left side is arbitrary. Interchanging both options during or between sessions would also be an option.}. In \textbf{Setup B} both audio sources will be placed directly in front of the \textit{main camera} and therefore no spatial information can be used to differentiate both audio streams. In both options the distance of the sources to the \textit{main camera} hjas to be the same.
-%\vspace{5mm}
-\begin{figure}[h!]
-	\hspace{0.1\textwidth}
-    \subfigure[Setup A]{\includegraphics[width=0.4\textwidth]{trainingSetupPageA.png}}
-    %\hspace{0.2\textwidth}
-    \subfigure[Setup B]{\includegraphics[width=0.4\textwidth]{trainingSetupPageB.png}}
-    %\hspace{0.1\textwidth}
-\caption{Training Game Setup}
-\label{fig:setups}
-\vspace{3mm}
-\end{figure}
 
-
-\subsubsection{Word databases}
-Even though the initial scope of the application shall only feature a single word list from the original paper (Appendix A \cite{LiSN-A}), the implementation should be flexible enough to support different word databases. This is particularly important when considering the option to port the application to different languages. To further elaborate on how this should be done, List 1 from the original paper will be used as an example.  Within table \ref{tab:list1} all highlighted words are can be used as an \textit{option} to question the user.
+\paragraph{Word databases} Even though the initial scope of the application shall only feature a single word list from the original paper (Appendix A \cite{LiSN-A}), the implementation should be flexible enough to support different word databases. This is particularly important when considering the option to port the application to different languages. To further elaborate on how this should be done, List 1 from the original paper will be used as an example.  Within table \ref{tab:list1} all highlighted words are can be used as an \textit{option} to question the user.
 \begin{table}[h!]
 \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
 \hline
@@ -476,6 +452,9 @@ Moving on from the requirement of establishing a framework, which supports varia
 Unity offers multiple ways to handle this topic. The straight forward approach would be to assign the individual asset files through drag and drop within the inspector. Even though this would in principle fulfil the requirement of changing/adding assets, it's not ideal when many assets shall be changed at once (consider List 1 (table \ref{tab:list1}, where already 9 x 5 audio files for the individual words would have to be added manually). 
 \newline
 \newline
+% Rework this into something more general
+% Idea: the assets shall be interchangable
+% However to avoid too complicated asset import procedures some conventions will have to be established, like file or folder name and structure guidelines.
 Instead the \textit{Resource} system shall be used to handle this group of assets. This offers the opportunity to load assets straight from the file system into the application. However this solution also has some drawbacks. At first the path of the assets within the file system has to be considered. Once option would be to enforce a main path with naming policies. A path could then look like this: \textit{Resources/Audio/WordList<\textbf{number}>/Group<\textbf{number}>}.
 
 
@@ -556,7 +535,7 @@ After this brief overview the contents of each functional block shall be discuss
 \label{fig:mainmenu}
 \vspace{3mm}
 \end{figure}
-
+\newpage
 \paragraph{Progress} The progress screen shall feature a graphical representation of the \ac{SRT} values achieved by the user of the amount of sessions done. Additionally other data like the current average \ac{SRT} or the total number of sessions done can be featured as well.
 \begin{figure}[h!]
 \centering
@@ -584,7 +563,6 @@ Within part A of this research project, a concept as well as the main set of req
  \acro{ASHA}{American Speech-Language-Hearing Association}
  \acro{CAPD}{Central Auditory Processing Disorder}
  \acro{DSP}{Digital Signal Processing}
-% \acro{GUI}{Graphical User Interface}
  \acro{HRTF}{Head Related Transfer Function}
  \acro{IDE}{Integrated Development Environment}
  \acro{LiSN}{Listening in Spatialized Noise \& Learn}
@@ -593,6 +571,7 @@ Within part A of this research project, a concept as well as the main set of req
  \acro{SDK}{Software Development Kit}
  \acro{SNR}{Signal to Noise Ratio}
  \acro{SPD}{Spatial Processing Disorder}
+ \acro{SPL}{Sound Pressure Level}
  \acro{SRT}{Speech Reception Threshold}
  \acro{TTS}{Text To Speech}
  \acro{UI}{User Interface}
@@ -604,8 +583,8 @@ Within part A of this research project, a concept as well as the main set of req
 \listoffigures
 \addcontentsline{toc}{section}{List of Figures}
 %\newpage
-\renewcommand\refname{Sources}
-\addcontentsline{toc}{section}{Sources}
+\renewcommand\refname{References}
+\addcontentsline{toc}{section}{References}
 \begin{thebibliography}{14}
 \bibitem{ASHA}{\textit{Central Auditory Processing Disorder}, \acf{ASHA}, retrieval date: Nov. 2021, \url{https://www.asha.org/Practice-Portal/Clinical-Topics/Central-Auditory-Processing-Disorder/}}
 \bibitem{LiSN-Dev}{\textit{Development and Evaluation of the Listening in Spatialized Noise Test}, Sharon Cameron, Harvey Dillon, Date: March 2006, \url{https://www.researchgate.net/publication/7326536_Development_and_Evaluation_of_the_Listening_in_Spatialized_Noise_Test}}
